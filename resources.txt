@@ -1,0 +1,8 @@
+Tutorials: 
+
+Visualize embedding:
+https://medium.com/oneassist-tech-blog/visualizing-context-with-googles-universal-sentence-encoder-and-graphdb-c5f92b2f3db3
+
+Plotly:
+https://plotly.com/python/axes/#2d-cartesian-axis-types-and-autodetection
+https://plotly.com/python/3d-axes/#disabling-tooltip-spikes
