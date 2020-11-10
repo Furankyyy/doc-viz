@@ -82,9 +82,7 @@ def plot_embeddings(pairs1, pairs2, dimension = 3):
                     yaxis_title='Dimension 2',
                     zaxis_title='Dimension 3'))
 
-    fig.show()
         
-
 if __name__ == '__main__':
 
     m = SentenceEncoder()

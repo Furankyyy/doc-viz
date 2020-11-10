@@ -6,3 +6,7 @@ https://medium.com/oneassist-tech-blog/visualizing-context-with-googles-universa
 Plotly:
 https://plotly.com/python/axes/#2d-cartesian-axis-types-and-autodetection
 https://plotly.com/python/3d-axes/#disabling-tooltip-spikes
+
+
+Interactive in Gihub Pages
+https://stackoverflow.com/questions/60513164/display-interactive-plotly-chart-html-file-on-github-pages
