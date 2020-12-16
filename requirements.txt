@@ -1,0 +1,47 @@
+Brotli==1.0.9
+certifi==2020.6.20
+cffi @ file:///home/conda/feedstock_root/build_artifacts/cffi_1602537219008/work
+chardet==3.0.4
+click==7.1.2
+dash==1.18.1
+dash-core-components==1.14.1
+dash-html-components==1.1.1
+dash-renderer==1.8.3
+dash-table==4.11.1
+filelock==3.0.12
+Flask==1.1.2
+Flask-Compress==1.8.0
+future==0.18.2
+idna==2.10
+itsdangerous==1.1.0
+Jinja2==2.11.2
+joblib @ file:///home/conda/feedstock_root/build_artifacts/joblib_1601671685479/work
+MarkupSafe @ file:///home/conda/feedstock_root/build_artifacts/markupsafe_1602267316845/work
+mkl-fft==1.2.0
+mkl-random==1.0.4
+mkl-service==2.3.0
+nltk==3.5
+numpy @ file:///tmp/build/80754af9/numpy_and_numpy_base_1603479632437/work
+packaging==20.4
+pandas==1.1.4
+plotly @ file:///home/conda/feedstock_root/build_artifacts/plotly_1603467793398/work
+pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1593275161868/work
+pyparsing==2.4.7
+python-dateutil==2.8.1
+pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1604321279890/work
+regex==2020.10.28
+requests==2.24.0
+retrying==1.3.3
+sacremoses==0.0.43
+scikit-learn @ file:///home/conda/feedstock_root/build_artifacts/scikit-learn_1604232444046/work
+scipy==1.5.4
+sentence-transformers==0.3.8
+sentencepiece==0.1.94
+six @ file:///home/conda/feedstock_root/build_artifacts/six_1590081179328/work
+threadpoolctl @ file:///tmp/tmp79xdzxkt/threadpoolctl-2.1.0-py3-none-any.whl
+tokenizers==0.8.1rc2
+torch==1.5.0
+tqdm==4.51.0
+transformers==3.3.1
+urllib3==1.25.11
+Werkzeug==1.0.1
