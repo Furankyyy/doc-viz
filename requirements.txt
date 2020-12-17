@@ -19,7 +19,6 @@ joblib
 MarkupSafe 
 mkl-fft
 mkl-random
-mkl-service
 nltk==3.5
 numpy 
 packaging==20.4
