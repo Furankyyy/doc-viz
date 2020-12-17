@@ -18,8 +18,8 @@ Jinja2==2.11.2
 joblib 
 MarkupSafe 
 mkl-fft
-mkl-random==1.0.4
-mkl-service==2.3.0
+mkl-random
+mkl-service
 nltk==3.5
 numpy 
 packaging==20.4
