@@ -17,7 +17,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.2
 joblib 
 MarkupSafe 
-mkl-fft==1.2.0
+mkl-fft
 mkl-random==1.0.4
 mkl-service==2.3.0
 nltk==3.5

@@ -37,23 +37,28 @@ class Plot_Embedding():
         args: (doc_name, doc)
         '''
 
-        data = [] # [[sents1,embs1],[sents2,embs2],...]
+        data = [] # [[doc1,embs1],[doc2,embs2],...]
+        names = []
         
-        for text in args:
-            pair = self.Encoder.encode(text)
+        for (doc_name, doc) in args:
+            if doc is '':
+                continue
+            pair = self.Encoder.encode(doc)
             data.append(pair)
+            names.append(doc_name)
         
         dim_reduc = PCA(n_components=3)
-        dim_reduc.fit(np.vstack([pair[1] for pair in data]))
+        dim_reduc.fit([emb for doc in data for emb in doc[1]])
 
         embeddings = [] # [embs_for_doc_1, embs_for_doc_2,...]
         sentences = [] # [sents_for_doc_1, sents_for_doc_2,...]
 
         df = []
-        for pair in data:
-            reduced_embeddings = dim_reduc.fit_transform(pair[1])
-            df.append({'sentences': pair[0], 'dim1': reduced_embeddings[:,0], 
-                    'dim2': reduced_embeddings[:,1],'dim3':reduced_embeddings[:,2]})
+        for pair in range(len(data)):
+            reduced_embeddings = dim_reduc.transform(data[pair][1])
+            df.append({'sentences': data[pair][0], 'dim1': reduced_embeddings[:,0], 
+                    'dim2': reduced_embeddings[:,1],'dim3': reduced_embeddings[:,2], 
+                    'doc_name': [names[pair]]*len(reduced_embeddings)})
         
         fig = go.Figure()
 
@@ -67,7 +72,8 @@ class Plot_Embedding():
                         z = plotting['dim3'],
                         text = plotting['sentences'],
                         hovertemplate = "<b>%{text}</b><br><br>"+"<extra></extra>",
-                        mode='markers'
+                        mode='markers',
+                        name=plotting['doc_name'][0]
                         ))
         
         fig.update_layout(scene = dict(
@@ -79,6 +85,11 @@ class Plot_Embedding():
                 showticklabels=False)
             ),           
             )
+
+        fig.update_layout(autosize=True,
+                          #width=1000,
+                          height=850,
+                          margin=dict(l=50,r=50,b=50,t=50))
 
         fig.update_layout(scene = dict(
                     xaxis_title='Dimension 1',
