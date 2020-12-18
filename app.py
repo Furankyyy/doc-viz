@@ -12,7 +12,7 @@ from dash.exceptions import PreventUpdate
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
+server = app.server
 
 app.layout = html.Div(children=[
     html.H1(children='DocViz'),
@@ -23,7 +23,7 @@ app.layout = html.Div(children=[
     html.Br(),
     html.Br(),
 
-    
+
     html.I("Input document text into the boxes below. Supports up to 4 documents for visualization."),
     html.Br(),
     html.Div(['Document name (Required):', dcc.Input(id='document_text', value='', type='text'), 
