@@ -5,10 +5,11 @@ import plotly.express as px
 import pandas as pd
 from plot import Plot_Embedding
 from dash.dependencies import Input, Output, State
+import nltk
 from nltk.tokenize import sent_tokenize
 from dash.exceptions import PreventUpdate
 
-
+nltk.download('punkt')
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
