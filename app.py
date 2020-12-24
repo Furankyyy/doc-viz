@@ -1,4 +1,6 @@
 import dash
+import io
+from base64 import b64encode
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.express as px
@@ -45,6 +47,13 @@ app.layout = html.Div(children=[
 
     dcc.Graph(
         id='output_graph'
+    ),
+
+    html.A(
+        html.Button("Download HTML"), 
+        id="download",
+        href="",
+        download="plotly_graph.html"
     )
 ])
 
@@ -52,6 +61,7 @@ app.layout = html.Div(children=[
 @app.callback(
     Output('output_graph', 'figure'),
     Output('err', 'children'),
+    Output('download','href'),
     [Input('submit-val', 'n_clicks')],
     [State('input_text', 'value')],
     [State('input_text2', 'value')],
@@ -67,13 +77,19 @@ def update_output_div(n_clicks, text1, text2, text3, text4, doc1, doc2, doc3, do
     text = [text1, text2, text3, text4]
     doc = [doc1, doc2, doc3, doc4]
     if len(sent_tokenize(' '.join(text))) < 3:
-        return dash.no_update, 'Please input more than 3 sentences!'
+        return dash.no_update, 'Please input more than 3 sentences!', ''
         #raise PreventUpdate
     
     data = [(doc[n],text[n]) for n in range(len(text))]
     m = Plot_Embedding()
     fig = m.plot(*data)
-    return fig, ''
+
+    buffer = io.StringIO()
+    fig.write_html(buffer)
+    html_bytes = buffer.getvalue().encode()
+    encoded = b64encode(html_bytes).decode()
+
+    return fig, '', "data:text/html;base64," + encoded
 
 
 if __name__ == '__main__':
