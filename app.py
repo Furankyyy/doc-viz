@@ -73,6 +73,8 @@ app.layout = html.Div(children=[
     [State('document_text4', 'value')],
     # prevent_initial_call=True
 )
+
+
 def update_output_div(n_clicks, text1, text2, text3, text4, doc1, doc2, doc3, doc4):
     text = [text1, text2, text3, text4]
     doc = [doc1, doc2, doc3, doc4]
