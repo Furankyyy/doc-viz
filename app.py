@@ -18,21 +18,9 @@ import nltk
 from nltk.tokenize import sent_tokenize
 from dash.exceptions import PreventUpdate
 from plot import plot_dash
+from core import app, conn, queue
 
 
-nltk.download('punkt')
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-
-# redis connection and RQ queue. use redistogo service when dpeloying to Heroku
-redis_url = os.getenv("REDISTOGO_URL", "redis://localhost:6379")
-conn = redis.from_url(redis_url)
-queue = Queue(connection=conn)
-
-
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-server = app.server
 
 app.layout = html.Div(children=[
     html.H1(children='DocViz'),
