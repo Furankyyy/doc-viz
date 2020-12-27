@@ -6,6 +6,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
+import io
+from base64 import b64encode
 
 
 class SentenceEncoder():
@@ -97,3 +99,15 @@ class Plot_Embedding():
                     zaxis_title='Dimension 3'))
 
         return fig
+
+
+def plot_dash(data):
+
+    M = Plot_Embedding()
+    fig = M.plot(*data)
+    buffer = io.StringIO()
+    fig.write_html(buffer)
+    html_bytes = buffer.getvalue().encode()
+    encoded = b64encode(html_bytes).decode()
+
+    return fig, "data:text/html;base64," + encoded

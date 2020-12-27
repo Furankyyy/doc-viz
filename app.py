@@ -1,8 +1,15 @@
 import dash
 import io
+import redis
+import uuid
+from rq import Queue
+from rq.exceptions import NoSuchJobError
+from rq.job import Job
+import os
 from base64 import b64encode
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bootstrap_components as dbc
 import plotly.express as px
 import pandas as pd
 from plot import Plot_Embedding
@@ -10,9 +17,19 @@ from dash.dependencies import Input, Output, State
 import nltk
 from nltk.tokenize import sent_tokenize
 from dash.exceptions import PreventUpdate
+from plot import plot_dash
+
 
 nltk.download('punkt')
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+
+
+# redis connection and RQ queue. use redistogo service when dpeloying to Heroku
+redis_url = os.getenv("REDISTOGO_URL", "redis://localhost:6379")
+conn = redis.from_url(redis_url)
+queue = Queue(connection=conn)
+
+
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
@@ -45,6 +62,10 @@ app.layout = html.Div(children=[
 
     html.P(id='err', style={'color': 'red'}),
 
+    dcc.Store(id="submitted-store"),
+    dcc.Store(id="finished-store"),
+    dcc.Interval(id="interval", interval=500),
+
     dcc.Graph(
         id='output_graph'
     ),
@@ -58,6 +79,42 @@ app.layout = html.Div(children=[
 ])
 
 
+@app.callback(
+    Output("submitted-store", "data"),
+    Output('err', 'children'),
+    [Input('submit-val', 'n_clicks')],
+    [State('input_text', 'value')],
+    [State('input_text2', 'value')],
+    [State('input_text3', 'value')],
+    [State('input_text4', 'value')],
+    [State('document_text', 'value')],
+    [State('document_text2', 'value')],
+    [State('document_text3', 'value')],
+    [State('document_text4', 'value')]
+)
+def submit(n_clicks, text1, text2, text3, text4, doc1, doc2, doc3, doc4):
+    """
+    Submit a job to the queue, log the id in submitted-store
+    """
+    text = [text1, text2, text3, text4]
+    doc = [doc1, doc2, doc3, doc4]
+    if len(sent_tokenize(' '.join(text))) < 3:
+        return {}, 'Please input more than 3 sentences!'
+        #raise PreventUpdate
+        
+    if n_clicks:
+        id_ = str(uuid.uuid4())
+        data = [(doc[n],text[n]) for n in range(len(text))]
+        # queue the task
+        queue.enqueue(plot_dash, data, job_id=id_)
+
+        # log process id in dcc.Store
+        return {"id": id_}, ''
+
+    return {},''
+
+
+'''
 @app.callback(
     Output('output_graph', 'figure'),
     Output('err', 'children'),
@@ -92,6 +149,56 @@ def update_output_div(n_clicks, text1, text2, text3, text4, doc1, doc2, doc3, do
     encoded = b64encode(html_bytes).decode()
 
     return fig, '', "data:text/html;base64," + encoded
+'''
+
+
+
+@app.callback(
+    [
+        Output('output_graph', 'figure'),
+        Output('download','href'),
+        Output("finished-store", "data"),
+    ],
+    [Input("interval", "n_intervals")],
+    [State("submitted-store", "data")],
+)
+def retrieve_output(n, submitted):
+    """
+    Periodically check the most recently submitted job to see if it has
+    completed.
+    """
+    if n and submitted:
+        try:
+            job = Job.fetch(submitted["id"], connection=conn)
+            if job.get_status() == "finished":
+                # job is finished, return result, and store id
+                return job.result[0], job.result[1], {"id": submitted["id"]}
+
+            # job is still running, get progress and update progress bar
+            return dash.no_update, dash.no_update, dash.no_update
+
+        except NoSuchJobError:
+            # something went wrong, display a simple error message
+            return dash.no_update, dash.no_update, dash.no_update
+    # nothing submitted yet, return nothing.
+    return dash.no_update, None, {}
+
+
+
+@app.callback(
+    Output("interval", "disabled"),
+    [Input("submitted-store", "data"), Input("finished-store", "data")],
+)
+def disable_interval(submitted, finished):
+    if submitted:
+        if finished and submitted["id"] == finished["id"]:
+            # most recently submitted job has finished, no need for interval
+            return True
+        # most recent job has not yet finished, keep interval going
+        return False
+    # no jobs submitted yet, disable interval
+    return True
+
 
 
 if __name__ == '__main__':
