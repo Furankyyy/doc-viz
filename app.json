@@ -1,0 +1,12 @@
+{
+    "name": "DocViz",
+    "description": "Document Visualization with BERT",
+    "keywords": ["flask", "plotly-dash", "python", "rq", "redis"],
+    "website": "https://doc-viz.herokuapp.com/",
+    "repository": "https://github.com/Furankyyy/Digital-Humanities",
+    "addons": ["redistogo"],
+    "formation": {
+      "web": { "quantity": 1, "size": "free" },
+      "worker": { "quantity": 1, "size": "free" }
+    }
+  }
