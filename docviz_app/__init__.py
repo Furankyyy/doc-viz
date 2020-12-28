@@ -19,7 +19,7 @@ from dash.exceptions import PreventUpdate
 from .plot import plot_dash
 from .core import app, conn, queue
 
-
+nltk.download('punkt')
 
 app.layout = html.Div(children=[
     html.H1(children='DocViz'),
