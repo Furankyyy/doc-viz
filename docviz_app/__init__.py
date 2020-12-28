@@ -17,8 +17,8 @@ from dash.dependencies import Input, Output, State
 import nltk
 from nltk.tokenize import sent_tokenize
 from dash.exceptions import PreventUpdate
-from plot import plot_dash
-from core import app, conn, queue
+from .plot import plot_dash
+from .core import app, conn, queue
 
 
 
@@ -187,7 +187,3 @@ def disable_interval(submitted, finished):
     # no jobs submitted yet, disable interval
     return True
 
-
-
-if __name__ == '__main__':
-    app.run_server(debug=True)
