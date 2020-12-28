@@ -90,11 +90,12 @@ def submit(n_clicks, text1, text2, text3, text4, doc1, doc2, doc3, doc4):
         #raise PreventUpdate
         
     if n_clicks:
+        print('start queueueueueueueu')
         id_ = str(uuid.uuid4())
         data = [(doc[n],text[n]) for n in range(len(text))]
         # queue the task
         queue.enqueue(plot_dash, data, job_id=id_)
-
+        print('finishquququququququ')
         # log process id in dcc.Store
         return {"id": id_}, ''
 
@@ -155,8 +156,10 @@ def retrieve_output(n, submitted):
     completed.
     """
     if n and submitted:
+        print('Im tryinginging')
         try:
             job = Job.fetch(submitted["id"], connection=conn)
+            print(job)
             if job.get_status() == "finished":
                 # job is finished, return result, and store id
                 return job.result[0], job.result[1], {"id": submitted["id"]}
