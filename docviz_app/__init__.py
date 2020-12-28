@@ -160,6 +160,7 @@ def retrieve_output(n, submitted):
             job = Job.fetch(submitted["id"], connection=conn)
             print(job.get_status())
             print(job.last_heartbeat)
+            print(job.exc_info)
             if job.get_status() == "finished":
                 # job is finished, return result, and store id
                 return job.result[0], job.result[1], {"id": submitted["id"]}
