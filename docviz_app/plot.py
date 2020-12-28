@@ -103,8 +103,11 @@ class Plot_Embedding():
 
 def plot_dash(data):
 
+    print('plotting')
+
     M = Plot_Embedding()
     fig = M.plot(*data)
+    print('plotting finish')
     buffer = io.StringIO()
     fig.write_html(buffer)
     html_bytes = buffer.getvalue().encode()
