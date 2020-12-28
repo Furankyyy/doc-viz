@@ -12,7 +12,6 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 import plotly.express as px
 import pandas as pd
-from plot import Plot_Embedding
 from dash.dependencies import Input, Output, State
 import nltk
 from nltk.tokenize import sent_tokenize
