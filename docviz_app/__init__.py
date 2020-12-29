@@ -156,7 +156,7 @@ def retrieve_output(n, submitted):
     if n and submitted:
         try:
             job = Job.fetch(submitted["id"], connection=conn)
-            print(get_status())
+            print(job.get_status())
             if job.get_status() == "failed":
                 print(job.exc_info)
             if job.get_status() == "finished":
