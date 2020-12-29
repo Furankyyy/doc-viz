@@ -93,7 +93,7 @@ def submit(n_clicks, text1, text2, text3, text4, doc1, doc2, doc3, doc4):
         id_ = str(uuid.uuid4())
         data = [(doc[n],text[n]) for n in range(len(text))]
         # queue the task
-        queue.enqueue_call(func=plot_dash, args=(data,), job_id=id_, failure_ttl=300)
+        queue.enqueue_call(func=plot_dash, args=(data,), job_id=id_, failure_ttl=300, timeout=-1)
         # log process id in dcc.Store
         return {"id": id_}, ''
 
