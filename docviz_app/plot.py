@@ -42,12 +42,15 @@ class Plot_Embedding():
         data = [] # [[doc1,embs1],[doc2,embs2],...]
         names = []
         
+        print('encoding starts')
         for (doc_name, doc) in args:
             if doc is '':
                 continue
             pair = self.Encoder.encode(doc)
             data.append(pair)
             names.append(doc_name)
+
+        print('PCA starts')
         
         dim_reduc = PCA(n_components=3)
         dim_reduc.fit([emb for doc in data for emb in doc[1]])
