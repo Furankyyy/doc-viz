@@ -6,8 +6,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
-import io
-from base64 import b64encode
 
 
 class SentenceEncoder():
@@ -42,15 +40,12 @@ class Plot_Embedding():
         data = [] # [[doc1,embs1],[doc2,embs2],...]
         names = []
         
-        print('encoding starts')
         for (doc_name, doc) in args:
             if doc is '':
                 continue
             pair = self.Encoder.encode(doc)
             data.append(pair)
             names.append(doc_name)
-
-        print('PCA starts')
         
         dim_reduc = PCA(n_components=3)
         dim_reduc.fit([emb for doc in data for emb in doc[1]])
@@ -102,18 +97,3 @@ class Plot_Embedding():
                     zaxis_title=''))
 
         return fig
-
-
-def plot_dash(data):
-
-    print('plotting')
-
-    M = Plot_Embedding()
-    fig = M.plot(*data)
-    print('plotting finish')
-    buffer = io.StringIO()
-    fig.write_html(buffer)
-    html_bytes = buffer.getvalue().encode()
-    encoded = b64encode(html_bytes).decode()
-
-    return fig, "data:text/html;base64," + encoded
