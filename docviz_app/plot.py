@@ -97,9 +97,9 @@ class Plot_Embedding():
                           margin=dict(l=50,r=50,b=50,t=50))
 
         fig.update_layout(scene = dict(
-                    xaxis_title='Dimension 1',
-                    yaxis_title='Dimension 2',
-                    zaxis_title='Dimension 3'))
+                    xaxis_title='',
+                    yaxis_title='',
+                    zaxis_title=''))
 
         return fig
 
